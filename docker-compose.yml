@@ -1,0 +1,28 @@
+version: '3'
+services:
+    web:
+        # Because we are running a react-app in a 
+        # container, we need the stdin_open 
+        # parameter set to true in order to capture
+        # standard input 
+        stdin_open: true
+        # were using a specific dockerfile, Dockerfile.dev, so we have
+        # to state that here
+        build:
+            context: .
+            dockerfile: Dockerfile.dev
+        ports: 
+            - '3000:3000'
+        volumes: 
+            - /app/node_modules
+            - .:/app
+    # a service just for testing.
+    test:
+        stdin_open: true
+        build: 
+            context: .
+            dockerfile: Dockerfile.dev
+        volumes:
+            - /app/node_modules
+            - .:/app
+        command: ["npm","run","test"]
