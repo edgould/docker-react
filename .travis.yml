@@ -1,0 +1,13 @@
+sudo: required
+services: 
+    - docker
+
+# tag the image so we can reference it later.
+before_install:
+    - docker build -t euphoman/docker-react -f Dockerfile.dev .
+
+# Command to run our test suite. 
+script:
+    - docker run -e CI=true euphoman/docker-react npm run test
+
+language: generic
