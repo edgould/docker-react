@@ -11,3 +11,21 @@ script:
     - docker run -e CI=true euphoman/docker-react npm run test
 
 language: generic
+
+deploy:
+    provider: elasticbeanstalk
+    #Part of the web address for your app
+    region: "us-east-2"
+    app: "docker-react"
+    env: "DockerReact-env"
+    # S3 Services. Look for your elasticbeanstalk S3 service
+    bucket_name: "elasticbeanstalk-us-east-2-968707750742"
+    # The path that will hold your app under the S3. It should be the name
+    # of your app.
+    bucket_path: "docker-react"
+    #only deploy when master is updated
+    on:
+        branch: master
+    #environment variables are created in settings from the travis-ci options
+    access_key_id: $AWS_ACCESS_KEY
+    secret_access_key: $AWS_SECRET_KEY
